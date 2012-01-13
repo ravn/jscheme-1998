@@ -1,0 +1,6 @@
+Mavenization of JScheme 1998. 
+
+Expected usage is as a configuration-with-code file parser
+replacing property files.
+
+/ravn 2012-01-13
