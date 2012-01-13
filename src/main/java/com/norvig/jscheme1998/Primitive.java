@@ -35,7 +35,7 @@ public class Primitive extends Procedure {
 			SECOND = 32, SYMBOLQ = 33, TIMES = 34, TRUNCATE = 35, WRITE = 36,
 			APPEND = 37, BOOLEANQ = 38, SQRT = 39, EXPT = 40, REVERSE = 41,
 			ASSOC = 42, ASSQ = 43, ASSV = 44, MEMBER = 45, MEMQ = 46,
-			MEMV = 47, EQVQ = 48, LISTREF = 49, LISTTAIL = 50, STRINQ = 51,
+			MEMV = 47, EQVQ = 48, LISTREF = 49, LISTTAIL = 50, //STRINQ = 51,
 			MAKESTRING = 52, STRING = 53, STRINGLENGTH = 54, STRINGREF = 55,
 			STRINGSET = 56, SUBSTRING = 57, STRINGAPPEND = 58,
 			STRINGTOLIST = 59, LISTTOSTRING = 60, SYMBOLTOSTRING = 61,
@@ -59,7 +59,8 @@ public class Primitive extends Procedure {
 																		 * 132
 																		 */,
 			STRINGCMP = 133 /* to 137 */, STRINGCICMP = 138 /* to 142 */,
-			EXACTQ = 143, INEXACTQ = 144, INTEGERQ = 145,
+			//EXACTQ = 143, 
+			INEXACTQ = 144, INTEGERQ = 145,
 			CALLWITHINPUTFILE = 146, CALLWITHOUTPUTFILE = 147;
 
 	// ////////////// Extensions ////////////////

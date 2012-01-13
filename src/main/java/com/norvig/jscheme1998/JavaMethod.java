@@ -11,7 +11,7 @@ import java.lang.reflect.Modifier;
 
 public class JavaMethod extends Procedure {
 
-	Class[] argClasses;
+	Class<?>[] argClasses;
 	Method method;
 	boolean isStatic;
 
@@ -51,9 +51,9 @@ public class JavaMethod extends Procedure {
 				+ ", ");
 	}
 
-	public static Class toClass(Object arg) throws ClassNotFoundException {
+	public static Class<?> toClass(Object arg) throws ClassNotFoundException {
 		if (arg instanceof Class) {
-			return (Class) arg;
+			return (Class<?>) arg;
 		}
 		arg = stringify(arg, false);
 
@@ -105,9 +105,9 @@ public class JavaMethod extends Procedure {
 	}
 
 	/** Convert a list of class names into an array of Classes. **/
-	public Class[] classArray(Object args) throws ClassNotFoundException {
+	public Class<?>[] classArray(Object args) throws ClassNotFoundException {
 		int n = length(args);
-		Class[] array = new Class[n];
+		Class<?>[] array = new Class[n];
 		for (int i = 0; i < n; i++) {
 			array[i] = toClass(first(args));
 			args = rest(args);
