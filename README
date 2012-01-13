@@ -1,6 +1,18 @@
-Mavenization of JScheme 1998. 
+Experimental mavenization of JScheme 1998. 
 
 Expected usage is as a configuration-with-code file parser
-replacing property files.
+replacing property files. 
+
+Licensing is the same as the original - see original-license.html
+
+Note:  This is a repackaging of the original from
+
+  http://norvig.com/jscheme.html
+
+and not the later, larger version as found on 
+
+  http://jscheme.sourceforge.net/jscheme/main.html
+
+
 
 /ravn 2012-01-13
