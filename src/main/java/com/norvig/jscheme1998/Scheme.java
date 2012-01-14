@@ -2,8 +2,9 @@ package com.norvig.jscheme1998;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.StringReader;
 
 /**
  * This class represents a Scheme interpreter. See
@@ -27,7 +28,9 @@ public class Scheme extends SchemeUtils {
 	public Scheme(String[] files) {
 		Primitive.installPrimitives(globalEnvironment);
 		try {
-			load(new InputPort(new StringReader(SchemePrimitives.CODE)));
+			InputStream is = getClass().getResourceAsStream("/primitives.scm");
+			load(new InputPort(new InputStreamReader(is)));
+
 			for (int i = 0; i < (files == null ? 0 : files.length); i++) {
 				load(files[i]);
 			}
@@ -101,50 +104,47 @@ public class Scheme extends SchemeUtils {
 				return env.lookup((String) x);
 			} else if (!(x instanceof Pair)) { // CONSTANT
 				return x;
-			} else {
-				Object fn = first(x);
-				Object args = rest(x);
-				if (fn == "quote") { // QUOTE
-					return first(args);
-				} else if (fn == "begin") { // BEGIN
-					for (; rest(args) != null; args = rest(args)) {
-						eval(first(args), env);
-					}
-					x = first(args);
-				} else if (fn == "define") { // DEFINE
-					if (first(args) instanceof Pair) {
-						return env.define(
-								first(first(args)),
-								eval(cons("lambda",
-										cons(rest(first(args)), rest(args))),
-										env));
-					} else {
-						return env.define(first(args), eval(second(args), env));
-					}
-				} else if (fn == "set!") { // SET!
-					return env.set(first(args), eval(second(args), env));
-				} else if (fn == "if") { // IF
-					x = (truth(eval(first(args), env))) ? second(args)
-							: third(args);
-				} else if (fn == "cond") { // COND
-					x = reduceCond(args, env);
-				} else if (fn == "lambda") { // LAMBDA
-					return new Closure(first(args), rest(args), env);
-				} else if (fn == "macro") { // MACRO
-					return new Macro(first(args), rest(args), env);
-				} else { // PROCEDURE CALL:
-					fn = eval(fn, env);
-					if (fn instanceof Macro) { // (MACRO CALL)
-						x = ((Macro) fn).expand(this, (Pair) x, args);
-					} else if (fn instanceof Closure) { // (CLOSURE CALL)
-						Closure f = (Closure) fn;
-						x = f.body;
-						env = new Environment(f.parms, evalList(args, env),
-								f.env);
-					} else { // (OTHER PROCEDURE CALL)
-						return Procedure.proc(fn).apply(this,
-								evalList(args, env));
-					}
+			}
+
+			Object fn = first(x);
+			Object args = rest(x);
+			if (fn == "quote") { // QUOTE
+				return first(args);
+			} else if (fn == "begin") { // BEGIN
+				for (; rest(args) != null; args = rest(args)) {
+					eval(first(args), env);
+				}
+				x = first(args);
+			} else if (fn == "define") { // DEFINE
+				if (first(args) instanceof Pair) {
+					return env.define(
+							first(first(args)),
+							eval(cons("lambda",
+									cons(rest(first(args)), rest(args))), env));
+				} else {
+					return env.define(first(args), eval(second(args), env));
+				}
+			} else if (fn == "set!") { // SET!
+				return env.set(first(args), eval(second(args), env));
+			} else if (fn == "if") { // IF
+				x = (truth(eval(first(args), env))) ? second(args)
+						: third(args);
+			} else if (fn == "cond") { // COND
+				x = reduceCond(args, env);
+			} else if (fn == "lambda") { // LAMBDA
+				return new Closure(first(args), rest(args), env);
+			} else if (fn == "macro") { // MACRO
+				return new Macro(first(args), rest(args), env);
+			} else { // PROCEDURE CALL:
+				fn = eval(fn, env);
+				if (fn instanceof Macro) { // (MACRO CALL)
+					x = ((Macro) fn).expand(this, (Pair) x, args);
+				} else if (fn instanceof Closure) { // (CLOSURE CALL)
+					Closure f = (Closure) fn;
+					x = f.body;
+					env = new Environment(f.parms, evalList(args, env), f.env);
+				} else { // (OTHER PROCEDURE CALL)
+					return Procedure.proc(fn).apply(this, evalList(args, env));
 				}
 			}
 		}
