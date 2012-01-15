@@ -85,11 +85,60 @@ public class TestScheme {
 	}
 
 	@Test
-	public void testDefine() {
+	public void testDefineAndSet() {
 		assertEquals(10.0, num(evalString("(define a 10) a")), 1e-6);
 		// remember a?
 		assertEquals(10.0, num(evalString("a")), 1e-6);
 		assertEquals(20.0, num(evalString("(+ a a)")), 1e-6);
+
+		// reassign a
+		assertEquals(5.0, num(evalString("(set! a 5) a")), 1e-6);
+		assertEquals(5.0, num(evalString("a")), 1e-6);
+		assertEquals(10.0, num(evalString("(+ a a)")), 1e-6);
+
+		evalString("(define (square x) (* x x))");
+		assertEquals(25.0, num(evalString("(square a)")), 1e-6);
+	}
+
+	@Test
+	public void testIf() {
+		evalString("(define a 10)");
+		assertEquals(10.0, num(evalString("a")), 1e-6);
+		assertEquals(1.0, num(evalString("(if (<= a 10) 1 a)")), 1e-6);
+		assertEquals(10.0, num(evalString("(if (< a 10) 1 a)")), 1e-6);
+		assertEquals(20.0, num(evalString("(if (< a 10) 1 (+ a a))")), 1e-6);
+	}
+
+	@Test
+	public void testFibbonacci() {
+		// naive, slow implementation
+		evalString("(define fib\n"
+				+ "  (lambda (n)\n"
+				+ "    (cond ((= n 0) 0)  \n" //
+				+ "          ((= n 1) 1)\n"
+				+ "          (else (+ (fib (- n 1))\n"
+				+ "                   (fib (- n 2)))))))");
+
+		assertEquals(5.0, num(evalString("(fib 5)")), 1e-6);
+		assertEquals(55.0, num(evalString("(fib 10)")), 1e-6);
+	}
+
+	@Test(expected = StackOverflowError.class)
+	public void testRecursionDepth() {
+		// jscheme interpreter just calls itself for expressions
+		evalString("(define x\n"
+				+ "  (lambda (n)\n"
+				+ "    (cond ((= n 0) 0)  \n" //
+				+ "          ((= n 1) 1)\n" //
+				+ "          (else (+ 1\n"
+				+ "                   (x (- n 1)))))))");
+		num(evalString("(x 1)"));
+		num(evalString("(x 10)"));
+		num(evalString("(x 100)"));
+		num(evalString("(x 1000)"));
+		// around here for default values
+		num(evalString("(x 10000)"));
+		num(evalString("(x 100000)"));
 
 	}
 }
