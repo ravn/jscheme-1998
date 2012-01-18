@@ -139,6 +139,11 @@ public class TestScheme {
 		// around here for default values
 		num(evalString("(x 10000)"));
 		num(evalString("(x 100000)"));
-
 	}
+
+	// @Test
+	// public void testSimpleProperties() {
+	// Object o = evalString("('(\"a\" \"b\") '(\"c\" \"d\"))");
+	// Assert.assertNotNull(o);
+	// }
 }
