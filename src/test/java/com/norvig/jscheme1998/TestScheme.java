@@ -141,9 +141,57 @@ public class TestScheme {
 		num(evalString("(x 100000)"));
 	}
 
-	// @Test
-	// public void testSimpleProperties() {
-	// Object o = evalString("('(\"a\" \"b\") '(\"c\" \"d\"))");
-	// Assert.assertNotNull(o);
-	// }
+	@Test
+	public void testSimplePropertiesAsStringList() {
+		Object o = evalString("(list \"a\" \"b\" \"c\" \"d\")");
+		Object[] v = SchemeUtils.listToVector(o);
+
+		assertEquals(4, v.length);
+		assertEquals("a", str(v[0]));
+		assertEquals("b", str(v[1]));
+		assertEquals("c", str(v[2]));
+		assertEquals("d", str(v[3]));
+	}
+
+	@Test
+	public void testSimplePropertiesWithNumbericValues() {
+		Object o = evalString("(list \"a\" 0.1 \"c\" 100)");
+		Object[] v = SchemeUtils.listToVector(o);
+
+		assertEquals(4, v.length);
+		assertEquals("a", str(v[0]));
+		assertEquals("0.1", str(v[1]));
+		assertEquals("c", str(v[2]));
+		assertEquals("100", str(v[3]));
+	}
+
+	@Test
+	public void testPropertiesWithAppendAsStringList() {
+		Object o = evalString("(list "
+				+ "\"a\" (string-append \"b\" \"c\" \"d\") "
+				+ "\"e\" (string-append \"f\"))");
+		Object[] v = SchemeUtils.listToVector(o);
+
+		assertEquals(4, v.length);
+		assertEquals("a", str(v[0]));
+		assertEquals("bcd", str(v[1]));
+		assertEquals("e", str(v[2]));
+		assertEquals("f", str(v[3]));
+	}
+
+	private String str(Object v0) {
+		if (v0 instanceof char[]) {
+			return new String(SchemeUtils.str(v0));
+		}
+		if (v0 instanceof Number) {
+			double d = num(v0);
+			long l = Math.round(d);
+			if (Math.abs(d - l) < 1e-4) {
+				return "" + l;
+			} else {
+				return "" + num(v0);
+			}
+		}
+		return v0.toString();
+	}
 }
