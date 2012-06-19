@@ -14,5 +14,6 @@ and not the later, larger version as found on
   http://jscheme.sourceforge.net/jscheme/main.html
 
 
+Note:  Can be executed with "java -jar ..." to go in REPL.
 
 /ravn 2012-01-13

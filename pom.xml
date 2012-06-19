@@ -8,10 +8,10 @@
 	<packaging>jar</packaging>
 
 	<name>jscheme</name>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/ravn/jscheme-1998</url>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceEncoding>ASCII</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
@@ -29,6 +29,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
+					<!-- 1.5 needed for JUnit 4 tests -->
 					<source>1.5</source>
 					<target>1.5</target>
 				</configuration>
@@ -44,6 +45,35 @@
 						</manifest>
 					</archive>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<!-- -->
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<!-- -->
+						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
