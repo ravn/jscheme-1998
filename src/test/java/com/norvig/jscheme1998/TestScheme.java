@@ -179,7 +179,7 @@ public class TestScheme {
 		assertEquals("f", str(v[3]));
 	}
 
-	private String str(Object v0) {
+	static String str(Object v0) {
 		if (v0 instanceof char[]) {
 			return new String(SchemeUtils.str(v0));
 		}
