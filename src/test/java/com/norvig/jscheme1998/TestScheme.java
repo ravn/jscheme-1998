@@ -5,9 +5,13 @@ import static com.norvig.jscheme1998.SchemeUtils.num;
 import static com.norvig.jscheme1998.SchemeUtils.second;
 import static com.norvig.jscheme1998.SchemeUtils.truth;
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.StringReader;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -177,6 +181,35 @@ public class TestScheme {
 		assertEquals("bcd", str(v[1]));
 		assertEquals("e", str(v[2]));
 		assertEquals("f", str(v[3]));
+	}
+
+	@Test
+	public void testMultiValueList() {
+		Object o = evalString("(list \n" + //
+				" \"a\" \n" + //
+				" (list \"b1\" \"b2\")\n" + //
+				" \"c\"\n" + //
+				" ()\n" + //
+				")\n");
+		assertNotNull(o);
+		Object[] v = SchemeUtils.listToVector(o);
+		assertEquals(4, v.length);
+		Object first = v[0];
+		assertEquals("a", str(first));
+
+		Object second = v[1];
+		Assert.assertTrue(second instanceof Pair);
+		Object[] secondVector = SchemeUtils.listToVector(second);
+		Object[] x2 = new Object[2];
+		x2[0] = "b1".toCharArray();
+		x2[1] = "b2".toCharArray();
+		assertArrayEquals(x2, secondVector);
+
+		Object third = v[2];
+		assertEquals("c", str(third));
+
+		Object fourth = v[3];
+		Assert.assertEquals(fourth, null);
 	}
 
 	static String str(Object v0) {
