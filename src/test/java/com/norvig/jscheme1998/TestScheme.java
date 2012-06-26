@@ -1,15 +1,21 @@
 package com.norvig.jscheme1998;
 
 import static com.norvig.jscheme1998.SchemeUtils.first;
+import static com.norvig.jscheme1998.SchemeUtils.list;
 import static com.norvig.jscheme1998.SchemeUtils.num;
 import static com.norvig.jscheme1998.SchemeUtils.second;
 import static com.norvig.jscheme1998.SchemeUtils.truth;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.StringReader;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -219,6 +225,65 @@ public class TestScheme {
 
 	}
 
+	@Test
+	public void testGetAndEvalSimpleLambda() {
+		String s = "(lambda (x y) (+ x y))";
+		Object o = evalString(s);
+		assertTrue("Closure", o instanceof Closure);
+		Closure c = (Closure) o;
+
+		Object x = evalString("10");
+		Object y = evalString("20");
+
+		Object sum = c.apply(scheme, list(x, y));
+
+		assertEquals("lambda", "30", str(sum));
+		Pair l40 = list(evalString("-10"), evalString("50"));
+		assertEquals("40", str(c.apply(scheme, l40)));
+		Pair l140 = list(evalString("-10.5"), evalString("150.5"));
+		assertEquals("140", str(c.apply(scheme, l140)));
+		Pair l0 = list(evalString("-0.333"), evalString("0.333"));
+		assertEquals("0", str(c.apply(scheme, l0)));
+	}
+
+	@Test
+	public void testMakingMapAvailable() {
+		String s = "(define basjavad-map (list \"a\" \"a1\" \"b\" \"b2\"))";
+		Object o = evalString(s);
+		// map defined in interpreter
+		assertEquals("a1", str(evalString("(second basjavad-map)")));
+	}
+
+	@Test
+	public void testMakingMapAvailableAsAlist() {
+		Map<String, String> map = new LinkedHashMap<String, String>();// keep
+																		// order
+		map.put("a", "alpha");
+		map.put("b", "beta");
+		map.put("d", "delta");
+
+		StringBuffer sb = new StringBuffer();
+		sb.append("(define m '(");
+		Set<Entry<String, String>> es = map.entrySet();
+		for (Entry<String, String> entry : es) {
+			// no need to protect these values
+			sb.append("(\"" + entry.getKey() + "\" \"" + entry.getValue()
+					+ "\")");
+		}
+		sb.append("))");
+		System.out.println(sb);
+		Object o = evalString(sb.toString());
+		assertEquals("((\"a\" \"alpha\") (\"b\" \"beta\") (\"d\" \"delta\"))",
+				str(evalString("m")));
+
+		assertEquals("alpha", str(evalString("(second (assoc \"a\" m))")));
+		assertEquals("beta", str(evalString("(second (assoc \"b\" m))")));
+		assertEquals("delta", str(evalString("(second (assoc \"d\" m))")));
+
+		assertNull(str(evalString("(second (assoc \"c\" m))")));
+
+	}
+
 	static String str(Object v0) {
 		if (v0 instanceof char[]) {
 			return new String(SchemeUtils.str(v0));
@@ -231,6 +296,9 @@ public class TestScheme {
 			} else {
 				return "" + num(v0);
 			}
+		}
+		if (v0 == null) {
+			return null;
 		}
 		return v0.toString();
 	}
