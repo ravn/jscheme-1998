@@ -77,4 +77,10 @@ public class TestSchemeResources {
 		Object fourth = v[3];
 		Assert.assertEquals(fourth, null);
 	}
+
+	// @Test
+	public void testR4RS() {
+		Object o = evalResource("/r4rstest.scm");
+		assertNotNull(o);
+	}
 }

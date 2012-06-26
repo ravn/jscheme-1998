@@ -212,6 +212,13 @@ public class TestScheme {
 		Assert.assertEquals(fourth, null);
 	}
 
+	@Test
+	public void testSingleJavaCall() {
+		Object o = evalString("(define show (method \"getLocalHost\" \"java.net.InetAddress\"))(show)");
+		assertNotNull(o);
+
+	}
+
 	static String str(Object v0) {
 		if (v0 instanceof char[]) {
 			return new String(SchemeUtils.str(v0));
