@@ -271,7 +271,8 @@ public class TestScheme {
 					+ "\")");
 		}
 		sb.append("))");
-		System.out.println(sb);
+		// (defne
+		// System.out.println(sb);
 		Object o = evalString(sb.toString());
 		assertEquals("((\"a\" \"alpha\") (\"b\" \"beta\") (\"d\" \"delta\"))",
 				str(evalString("m")));
@@ -282,11 +283,15 @@ public class TestScheme {
 
 		assertNull(str(evalString("(second (assoc \"c\" m))")));
 
+		assertEquals("alphabeta", str(evalString("(string-append " //
+				+ "(second (assoc \"a\" m)) " //
+				+ "(second (assoc \"b\" m)))")));
+
 	}
 
 	static String str(Object v0) {
 		if (v0 instanceof char[]) {
-			return new String(SchemeUtils.str(v0));
+			return new String((char[]) v0);
 		}
 		if (v0 instanceof Number) {
 			double d = num(v0);

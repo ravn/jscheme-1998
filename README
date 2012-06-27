@@ -17,3 +17,9 @@ and not the later, larger version as found on
 Note:  Can be executed with "java -jar ..." to go in REPL.
 
 /ravn 2012-01-13
+
+Lots of additional tests added preparing for embedded use.
+
+JSR-223 support will most likely be the easiest way to do this.
+
+/ravn 2012-06-27
