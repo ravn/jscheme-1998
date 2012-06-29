@@ -30,7 +30,7 @@ public class Macro extends Closure {
 		if (!(x instanceof Pair)) {
 			return x;
 		}
-		Object fn = interpreter.eval(first(x), interpreter.globalEnvironment);
+		Object fn = interpreter.eval(first(x), interpreter.getGlobalEnvironment());
 		if (!(fn instanceof Macro)) {
 			return x;
 		}

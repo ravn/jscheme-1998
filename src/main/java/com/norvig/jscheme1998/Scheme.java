@@ -19,14 +19,14 @@ public class Scheme extends SchemeUtils {
 
 	InputPort input = new InputPort(System.in);
 	PrintWriter output = new PrintWriter(System.out, true);
-	Environment globalEnvironment = new Environment();
+	private Environment globalEnvironment = new Environment();
 
 	/**
 	 * Create a Scheme interpreter and load an array of files into it. Also load
 	 * SchemePrimitives.CODE.
 	 **/
 	public Scheme(String[] files) {
-		Primitive.installPrimitives(globalEnvironment);
+		Primitive.installPrimitives(getGlobalEnvironment());
 		try {
 			InputStream is = getClass().getResourceAsStream("/primitives.scm");
 			load(new InputPort(new InputStreamReader(is)));
@@ -152,7 +152,7 @@ public class Scheme extends SchemeUtils {
 
 	/** Eval in the global environment. **/
 	public Object eval(Object x) {
-		return eval(x, this.globalEnvironment);
+		return eval(x, this.getGlobalEnvironment());
 	}
 
 	/** Evaluate each of a list of expressions. **/
@@ -191,6 +191,16 @@ public class Scheme extends SchemeUtils {
 				}
 			}
 		}
+	}
+
+	/**
+	 * A temporary measurement to get access to the global environment to allow
+	 * a ScriptEngine to get/set global variables.
+	 * 
+	 * @return
+	 */
+	public Environment getGlobalEnvironment() {
+		return globalEnvironment;
 	}
 
 }
