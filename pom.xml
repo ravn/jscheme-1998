@@ -21,6 +21,15 @@
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- reference API not in Maven Central, but a Sun project used it 
+		-->
+		<dependency>
+			<groupId>com.sun.phobos</groupId>
+			<artifactId>jsr223-api</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
@@ -30,8 +39,8 @@
 				<version>2.3.2</version>
 				<configuration>
 					<!-- 1.5 needed for JUnit 4 tests -->
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 			<plugin>
