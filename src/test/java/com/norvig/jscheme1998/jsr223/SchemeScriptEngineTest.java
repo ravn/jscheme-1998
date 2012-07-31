@@ -19,7 +19,7 @@ public class SchemeScriptEngineTest {
 
 	@Before
 	public void setUp() throws Exception {
-		engine = new ScriptEngineManager().getEngineByName("scheme1998");
+		engine = new ScriptEngineManager().getEngineByName("jscheme1998");
 	}
 
 	@Test

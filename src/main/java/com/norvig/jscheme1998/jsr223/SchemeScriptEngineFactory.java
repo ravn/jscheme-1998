@@ -29,7 +29,7 @@ public final class SchemeScriptEngineFactory implements ScriptEngineFactory {
 
 	public List<String> getNames() {
 		List<String> l = new ArrayList<String>();
-		l.add("scheme1998");
+		l.add("jscheme1998");
 		l.add("scheme");
 		return l;
 	}
