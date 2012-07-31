@@ -247,6 +247,35 @@ public class TestScheme {
 	}
 
 	@Test
+	public void testEvalLambdaWithArray1() {
+		String s = "(lambda (l) (length l))";
+		Object o = evalString(s);
+		assertTrue("Closure", o instanceof Closure);
+		Closure c = (Closure) o;
+
+		Object[] v = new Object[2];
+		v[0] = "abc".toCharArray();
+		v[1] = "def".toCharArray();
+		Pair l = SchemeUtils.list(SchemeUtils.vectorToList(v));
+		assertEquals("2", str(c.apply(scheme, l)));
+	}
+
+	@Test
+	public void testEvalLambdaWithArray2() {
+		String s = "(lambda (l) (apply + (map string-length l)))";
+		Object o = evalString(s);
+		assertTrue("Closure", o instanceof Closure);
+		Closure c = (Closure) o;
+
+		// (list "abc" "def")
+		Object[] v = new Object[2];
+		v[0] = "abc".toCharArray();
+		v[1] = "def".toCharArray();
+		Pair l = SchemeUtils.list(SchemeUtils.vectorToList(v));
+		assertEquals("6", str(c.apply(scheme, l)));
+	}
+
+	@Test
 	public void testMakingMapAvailable() {
 		String s = "(define basjavad-map (list \"a\" \"a1\" \"b\" \"b2\"))";
 		Object o = evalString(s);
