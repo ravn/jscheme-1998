@@ -12,6 +12,7 @@ import com.norvig.jscheme1998.Pair;
 import com.norvig.jscheme1998.SchemeUtils;
 
 public class SchemeScriptEngineHelper {
+
 	/**
 	 * Convert a Map<?,?> to an association list. <code>map.put("a", "alpha");
 		map.put("b", "beta");
@@ -75,8 +76,14 @@ public class SchemeScriptEngineHelper {
 
 		Object l = schemeList;
 		while (l != null) {
-			map.put(str(SchemeUtils.first(l)), SchemeUtils.second(l));
-			l = SchemeUtils.third(l);
+			String first = str(SchemeUtils.first(l));
+			Object second = SchemeUtils.second(l);
+			if (second instanceof char[] || second instanceof Number) {
+				second = str(second);
+			}
+			map.put(first, second);
+
+			l = SchemeUtils.rest(SchemeUtils.rest(l));
 		}
 		return map;
 	}

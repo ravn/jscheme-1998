@@ -86,4 +86,13 @@ public class SchemeScriptEngine extends AbstractScriptEngine implements
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * A mechanism to reach in and get the interpreter until e.g. being able to
+	 * engine.eval Closure objects directly.
+	 * 
+	 * @return
+	 */
+	public Scheme getScheme() {
+		return scheme;
+	}
 }
