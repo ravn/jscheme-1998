@@ -5,8 +5,8 @@ import static com.norvig.jscheme1998.SchemeUtils.list;
 import static com.norvig.jscheme1998.SchemeUtils.num;
 import static com.norvig.jscheme1998.SchemeUtils.second;
 import static com.norvig.jscheme1998.SchemeUtils.truth;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -17,8 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
