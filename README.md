@@ -1,8 +1,8 @@
 # JScheme 1998
 
-**IMPORTANT:  Java 8 required for compilation**
+**IMPORTANT:  Java 11 or earlier required for compilation, runs with Java 6 or later **
 
-Experimental mavenization of JScheme 1998. 
+Experimental mavenization of JScheme 1998.  Updated for 2022.
 
 Expected usage is as a configuration-with-code file parser
 replacing property files. 
@@ -13,7 +13,7 @@ Note:  This is a repackaging of the original from <http://norvig.com/jscheme.htm
 and not the later larger version found on <http://jscheme.sourceforge.net/jscheme/main.html>
 
 
-Note:  Can be executed with "java -jar ..." to go in REPL.
+Note:  Can be executed with "java -jar ..." to go in REPL.  Enter `(+ 2 2)` to get `4`.s
 
 /ravn 2012-01-13
 
