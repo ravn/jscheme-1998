@@ -25,14 +25,22 @@ JSR-223 support will most likely be the easiest way to do this.
 
 Updated to latest dependencies to silence dependabot.  Due to the deprecation
 of older Java versions in `javac` (see <https://openjdk.org/jeps/182>) the sources
-require Java 8 to keep targeting Java 6.
+require Java 8 or 11 to keep targeting Java 6.  This is being enforced in
+the POM.  The Github Actions scripts use Java 11.
 
-And my experiments back then with scripting using embedded JScheme turned out
-to be too complex for our needs.  The configuration bit were done using 
-dependency injection (using Dagger2 due to reflection being slow on the AS/400 Classic
-JVM) along with properties.   Also were I to repeat the exercise today I 
-would have a close look at having the main code with configuration in a source
+And my experiments back then with scripting using embedded JScheme unfortunately
+turned out to be too complex for our needs.  
+The configuration bit were done using 
+dependency injection (using Dagger2 due to reflection being very slow on the 
+AS/400 Classic JVM) along with properties.   I see why having configuration
+code being executed at actual runtime has benefits, but having a full 
+language makes it too tempting to do more than absolutely necessary.  
+Properties - perhaps combined with a very simple IF-THEN-ELSE mechanism - solves 
+most of the problems I've actually seen in the wild.  You can typically
+always go back and put the needed logic in the application itself.
+
+Also were I to repeat the exercise today I 
+would have a very close look at having the main code with configuration in a source
 file which was then run as described in <https://openjdk.org/jeps/330> (Java 11+).
 
-
-/ravn 2022-09-25
+/ravn 2022-10-01
